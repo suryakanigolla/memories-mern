@@ -1,0 +1,9 @@
+.sun-icon {
+    position: absolute;
+    width: 40px;
+    right: 25px;
+    & img {
+        display: block;
+        width: 100%;
+    }
+}
