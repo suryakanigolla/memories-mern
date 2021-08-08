@@ -1,13 +1,33 @@
-const initialPostsState = [];
+const initialPostsState = {
+  posts: [],
+  isFetching: false,
+  isCreatingPost: false,
+};
 
-const posts = (posts = initialPostsState, action) => {
+const posts = (state = initialPostsState, action) => {
   switch (action.type) {
+    case "TOGGLE_FETCH_LOADING":
+      return {
+        ...state,
+        isFetching: !state.isFetching,
+      };
+    case "TOGGLE_CREATE_POST_LOADING":
+      return {
+        ...state,
+        isCreatingPost: !state.isCreatingPost,
+      };
     case "FETCH_POSTS":
-      return action.payload;
+      return {
+        ...state,
+        posts: action.payload,
+      };
     case "CREATE_POST":
-      return posts;
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+      };
     default:
-        return posts
+      return state;
   }
 };
 

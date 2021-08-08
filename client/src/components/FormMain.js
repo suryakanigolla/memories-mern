@@ -1,6 +1,6 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { Form, Button, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
 import { toBase64 } from "../utils";
 import { createPost } from "../actions/postsActions";
@@ -11,13 +11,13 @@ const initialFormState = {
   creator: "Surya K",
   message: "",
   title: "",
-  tags: "sunny",
   selectedFile: "",
 };
 
 const FormMain = () => {
   const [formData, setFormData] = React.useState(initialFormState);
-
+  const isCreatingPost = useSelector((state) => state.posts.isCreatingPost);
+  const fileRef = React.useRef(null)
   const dispatch = useDispatch();
 
   const handleFileUpload = async (file) => {
@@ -25,18 +25,18 @@ const FormMain = () => {
     setFormData((prev) => ({ ...prev, selectedFile: base46Image }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     dispatch(createPost(formData));
-    clear()
+    clear();
   };
 
   const clear = () => {
-    setFormData(initialFormState)
+    setFormData(initialFormState);
+    fileRef.current.value = ""
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <Form.Group className="mb-3" controlId="formTitle">
         <Form.Label>Title</Form.Label>
         <Form.Control
@@ -69,12 +69,24 @@ const FormMain = () => {
         <Form.Label>Upload an image</Form.Label>
         <Form.Control
           type="file"
+          ref={fileRef}
           onChange={(e) => handleFileUpload(e.target.files[0])}
         />
       </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Submit
+      <Button
+        variant="primary"
+        type="button"
+        onClick={() => handleSubmit()}
+        disabled={isCreatingPost}
+      >
+        {isCreatingPost ? (
+          <React.Fragment>
+            <Spinner animation="border" variant="light" size="sm" /> Posting...
+          </React.Fragment>
+        ) : (
+          "Submit"
+        )}
       </Button>
     </Form>
   );
