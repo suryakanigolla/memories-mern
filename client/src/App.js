@@ -21,7 +21,7 @@ const App = () => {
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
-      <div className="row">
+      <div className="row w-75">
         {posts.map((post, index) => (
           <Post
             title={post.title}
@@ -30,11 +30,11 @@ const App = () => {
             image={post.selectedFile}
             likeCount={post.likeCount}
             key={index}
-            containerClass="col-auto px-0 m-2"
+            containerClass="col-6 px-0 m-2"
           />
         ))}
       </div>
-      <Card className="p-4 bg-light">
+      {/* <Card className="p-4 bg-light">
         <h3 className="mb-3">Create a post!</h3>
         <OverlayTrigger
           placement="top"
@@ -45,7 +45,7 @@ const App = () => {
           </div>
         </OverlayTrigger>
         <FormMain />
-      </Card>
+      </Card> */}
     </div>
   );
 };

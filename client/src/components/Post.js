@@ -30,15 +30,19 @@ const Post = ({ title, desc, likeCount, image, creator, containerClass }) => {
           <span className="right"></span>
         </div>
       </div>
+      <div className="post__body p-3">
+        <h4>{title}</h4>
+        <p className="mb-0">{desc}</p>
+      </div>
       <div className="post__footer">
         <div className="post__footer__like d-flex align-items-center">
           <button
             className={`post__footer__like__button ${isLiked && "liked"}`}
             onClick={() => setIsLiked((prev) => !prev)}
           >
-            <span class="like-icon">
-              <div class="heart-animation-1"></div>
-              <div class="heart-animation-2"></div>
+            <span className="like-icon">
+              <div className="heart-animation-1"></div>
+              <div className="heart-animation-2"></div>
             </span>
           </button>
           <span className="post__footer__like__count">{likeCount}</span>
