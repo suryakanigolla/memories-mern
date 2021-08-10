@@ -1,12 +1,10 @@
 import React from "react";
 
-import heartIcon from "../assets/images/heart.svg";
-import heartFillIcon from "../assets/images/heart-fill.svg";
-
 import "./Post.scss";
 
 const Post = ({ title, desc, likeCount, image, creator, containerClass }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isLiked, setIsLiked] = React.useState(false);
 
   return (
     <div id="post" className={`post ${containerClass} ${isOpen && "open"}`}>
@@ -34,8 +32,16 @@ const Post = ({ title, desc, likeCount, image, creator, containerClass }) => {
       </div>
       <div className="post__footer">
         <div className="post__footer__like d-flex align-items-center">
-          <img src={heartIcon} alt="heart" />
-          <span className="ms-2">{likeCount}</span>
+          <button
+            className={`post__footer__like__button ${isLiked && "liked"}`}
+            onClick={() => setIsLiked((prev) => !prev)}
+          >
+            <span class="like-icon">
+              <div class="heart-animation-1"></div>
+              <div class="heart-animation-2"></div>
+            </span>
+          </button>
+          <span className="post__footer__like__count">{likeCount}</span>
         </div>
       </div>
     </div>
