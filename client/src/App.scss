@@ -1,9 +1,39 @@
 .sun-icon {
-    position: absolute;
-    width: 40px;
-    right: 25px;
+  position: absolute;
+  width: 40px;
+  right: 25px;
+  & img {
+    display: block;
+    width: 100%;
+  }
+}
+
+.custom_card {
+  min-width: 350px;
+  min-height: 452px;
+}
+
+.image_holder {
+  height: 250px;
+  width: 300px;
+  background-color: rgb(187, 187, 187);
+  border: 1px solid black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & div {
+    width: 30px;
     & img {
-        display: block;
-        width: 100%;
+      display: block;
+      width: 100%;
     }
+  }
+
+  &_active {
+    & img {
+      display: block;
+      width: 100%;
+    }
+  }
 }
