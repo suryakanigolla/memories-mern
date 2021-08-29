@@ -1,0 +1,10 @@
+.index-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  &-form {
+    flex: 0 0 350px;
+  }
+}

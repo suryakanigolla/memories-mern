@@ -6,8 +6,6 @@ import { toBase64 } from "../utils";
 import { createPost } from "../actions/postsActions";
 import uploadIcon from "../assets/images/upload.png";
 
-import "../assets/scss/styles.scss";
-
 const initialFormState = {
   creator: "Surya K",
   message: "",
@@ -15,8 +13,15 @@ const initialFormState = {
   selectedFile: "",
 };
 
+const initialFormInValid = {
+  title: false,
+  message: false,
+};
+
 const FormMain = () => {
   const [formData, setFormData] = React.useState(initialFormState);
+  const [formInValidity, setFormInValidity] =
+    React.useState(initialFormInValid);
   const [currentForm, setCurrentForm] = React.useState(0);
   const isCreatingPost = useSelector((state) => state.posts.isCreatingPost);
   const fileRef = React.useRef(null);
@@ -50,6 +55,7 @@ const FormMain = () => {
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, title: e.target.value }))
               }
+              isInvalid={formInValidity.title}
             />
             <Form.Text className="text-muted">
               Eyecatching title for your post!
@@ -65,6 +71,7 @@ const FormMain = () => {
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, message: e.target.value }))
               }
+              isInvalid={formInValidity.message}
             />
             <Form.Text className="text-muted">
               Describe your awesome experience.
@@ -75,7 +82,18 @@ const FormMain = () => {
             variant="primary"
             type="button"
             className="w-100"
-            onClick={() => setCurrentForm(1)}
+            onClick={() => {
+              if (formInValidity.title && formInValidity.message) {
+                setCurrentForm(1);
+              } else {
+                if (!formInValidity.title) {
+                  setFormInValidity((prev) => ({ ...prev, title: true }));
+                }
+                if (!formInValidity.message) {
+                  setFormInValidity((prev) => ({ ...prev, message: true }));
+                }
+              }
+            }}
           >
             Next
           </Button>

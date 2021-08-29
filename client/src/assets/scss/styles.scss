@@ -1,7 +1,18 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
-body {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+@import "./base";
+@import "./normalize";
+
+:root {
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+  --font-primary: "Helvetica", sans-serif;
+  --container-primary: 1366px;
 }
+
+//Layout Styles
+@import "./mainlayout";
+
+// Page Styles
+@import "./indexpage";
+@import "./homepage";

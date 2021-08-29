@@ -7,7 +7,10 @@ const Post = ({ title, desc, likeCount, image, creator, containerClass }) => {
   const [isLiked, setIsLiked] = React.useState(false);
 
   return (
-    <div id="post" className={`post ${containerClass} ${isOpen && "open"}`}>
+    <div
+      id="post"
+      className={`post ${containerClass || ""} ${isOpen && "open"}`}
+    >
       <div
         className="post__header"
         style={{
@@ -31,7 +34,8 @@ const Post = ({ title, desc, likeCount, image, creator, containerClass }) => {
         </div>
       </div>
       <div className="post__body p-3">
-        <h4>{title}</h4>
+        <h4 className="mb-1">{title}</h4>
+        <h5 className="text-muted mb-3">{creator}</h5>
         <p className="mb-0">{desc}</p>
       </div>
       <div className="post__footer">

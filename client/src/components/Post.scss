@@ -46,7 +46,7 @@ $bezier: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     height: calc(350px - 105px - 47px);
     transition: all 0.3s ease;
 
-    & h4 {
+    & h4,h5 {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
@@ -54,6 +54,10 @@ $bezier: cubic-bezier(0.175, 0.885, 0.32, 1.275);
       transition: all 0.3s 0.2s ease;
       padding-bottom: 2px;
       font-size: 18px;
+    }
+
+    & h5 {
+      font-size: 14px;
     }
 
     & p {
@@ -171,7 +175,7 @@ $bezier: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     height: 0px;
     padding: 0px !important;
     transition: all 0.5s 0.1s ease;
-    & p, & h4 {
+    & p, & h4, & h5 {
       height: 0px;
       transition: all 0.2s ease;
     }
