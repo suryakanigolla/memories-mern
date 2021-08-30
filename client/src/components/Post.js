@@ -36,7 +36,7 @@ const Post = ({ title, desc, likeCount, image, creator, containerClass }) => {
       <div className="post__body p-3">
         <h4 className="mb-1">{title}</h4>
         <h5 className="text-muted mb-3">{creator}</h5>
-        <p className="mb-0">{desc}</p>
+        <p className="mb-0 pe-2">{desc}</p>
       </div>
       <div className="post__footer">
         <div className="post__footer__like d-flex align-items-center">

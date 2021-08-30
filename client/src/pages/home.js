@@ -3,7 +3,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../actions/postsActions";
 
-import Post from "../components/Post";
+import Pagination from "../components/Pagination";
+import FormMain from "../components/FormMain";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -16,18 +17,12 @@ const HomePage = () => {
   console.log(posts);
 
   return (
-    <div className="home-page row">
-      <div className="home-page__posts col-7">
-        {posts.map((post, index) => (
-          <Post
-            key={index}
-            title={post.title}
-            desc={post.message}
-            likeCount={post.likeCount}
-            image={post.selectedFile}
-            creator={post.creator}
-          />
-        ))}
+    <div className="home-page row align-items-center justify-content-between">
+      <div className="col-auto">
+        <Pagination data={posts} pageLimit={3} dataLimit={4} />
+      </div>
+      <div className="col-4">
+        <FormMain />
       </div>
     </div>
   );
