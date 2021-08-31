@@ -2,6 +2,8 @@ import React from "react";
 import { Pagination as PaginationGroup } from "react-bootstrap";
 
 import Post from "./Post";
+import SkeletonPost from "./SkeletonPost";
+
 import "./Pagination.scss";
 
 const Pagination = ({ data, pageLimit, dataLimit }) => {
@@ -62,16 +64,25 @@ const Pagination = ({ data, pageLimit, dataLimit }) => {
         </PaginationGroup>
       </div>
       <div className="pagination-posts">
-        {sliceData().map((post, index) => (
-          <Post
-            key={index}
-            title={post.title}
-            desc={post.message}
-            likeCount={post.likeCount}
-            image={post.selectedFile}
-            creator={post.creator}
-          />
-        ))}
+        {data.length ? (
+          sliceData().map((post, index) => (
+            <Post
+              key={index}
+              title={post.title}
+              desc={post.message}
+              likeCount={post.likeCount}
+              image={post.selectedFile}
+              creator={post.creator}
+            />
+          ))
+        ) : (
+          <React.Fragment>
+            <SkeletonPost />
+            <SkeletonPost />
+            <SkeletonPost />
+            <SkeletonPost />
+          </React.Fragment>
+        )}
       </div>
     </React.Fragment>
   );

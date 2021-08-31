@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
+import { useHistory } from "react-router";
 
 const initialState = {
   email: "",
@@ -17,6 +18,8 @@ const IndexPage = () => {
   const [formInValidity, setFormInValidity] =
     React.useState(initialFormInvalid);
 
+  const history = useHistory();
+
   const handleSubmit = () => {
     if (!formData.email.length) {
       setFormInValidity((prev) => ({ ...prev, email: true }));
@@ -30,6 +33,7 @@ const IndexPage = () => {
     }
     if (!formInValidity.email && !formInValidity.password) {
       console.log("All good");
+      history.push("/home")
     }
   };
 

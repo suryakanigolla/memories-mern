@@ -9,18 +9,18 @@ import "./App.scss";
 
 const App = () => {
   return (
-    <MainLayout>
-      <Router>
-        <Switch>
-          <Route path="/home">
+    <Router>
+      <Switch>
+        <Route path="/home">
+          <MainLayout>
             <HomePage></HomePage>
-          </Route>
-          <Route path="/">
-            <IndexPage></IndexPage>
-          </Route>
-        </Switch>
-      </Router>
-    </MainLayout>
+          </MainLayout>
+        </Route>
+        <Route path="/">
+          <IndexPage></IndexPage>
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
