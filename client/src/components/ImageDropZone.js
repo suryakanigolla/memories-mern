@@ -18,7 +18,7 @@ const ImageDropZone = ({setFormData}) => {
       setImage(tempBase64);
       setFormData((prev) => ({...prev, selectedFile: tempBase64}))
     });
-  }, []);
+  }, [setFormData]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleAddTag = (e) => {

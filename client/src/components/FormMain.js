@@ -32,12 +32,30 @@ const FormMain = () => {
     clear();
   };
 
+  const handleNextForm = () => {
+    if (!formData.title.length) {
+      setFormInValidity((prev) => ({ ...prev, title: true }));
+    } else {
+      setFormInValidity((prev) => ({ ...prev, title: false }));
+    }
+
+    if (!formData.message.length) {
+      setFormInValidity((prev) => ({ ...prev, message: true }));
+    } else {
+      setFormInValidity((prev) => ({ ...prev, message: false }));
+    }
+
+    if (!formInValidity.title && !formInValidity.message) {
+      setCurrentForm(1);
+    }
+  };
+
   const clear = () => {
     setFormData(initialFormState);
-    setFormInValidity(initialFormInValid)
+    setFormInValidity(initialFormInValid);
     setTimeout(() => {
-      setCurrentForm(0)
-    },1000)
+      setCurrentForm(0);
+    }, 1000);
   };
 
   return (
@@ -80,18 +98,7 @@ const FormMain = () => {
             variant="primary"
             type="button"
             className="w-100"
-            onClick={() => {
-              if (formInValidity.title && formInValidity.message) {
-                setCurrentForm(1);
-              } else {
-                if (!formInValidity.title) {
-                  setFormInValidity((prev) => ({ ...prev, title: true }));
-                }
-                if (!formInValidity.message) {
-                  setFormInValidity((prev) => ({ ...prev, message: true }));
-                }
-              }
-            }}
+            onClick={() => handleNextForm()}
           >
             Next
           </Button>

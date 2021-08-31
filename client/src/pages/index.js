@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Spinner } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 const initialState = {
