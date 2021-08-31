@@ -1,0 +1,88 @@
+.image_form {
+  position: relative;
+}
+
+.image_container {
+  width: 300px;
+  height: 300px;
+  background: #222;
+  transition: height 0.5s ease;
+  position: relative;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.custom_button {
+  cursor: pointer;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background: #222;
+  border-radius: 3px;
+  margin-bottom: 30px;
+}
+
+.browse-text {
+  color: rgb(0, 174, 255);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: fadeIn 1s 500ms ease forwards;
+  -webkit-animation: fadeIn 1s 500ms ease forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.pin {
+  width: 20px;
+  height: 20px;
+  border-radius: 50% 50% 50% 0;
+  background: rgb(240, 58, 58);
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -20px 0 0 -20px;
+  animation: bounce 0.9s ease;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+  & span {
+    position: absolute;
+    transform: rotate(45deg);
+    top: 2px;
+    left: 5px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  100% {
+    transform: translateY(0) rotate(-45deg);
+  }
+}

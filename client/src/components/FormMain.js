@@ -2,15 +2,16 @@ import React from "react";
 import { Form, Button, Spinner, ButtonGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-import { toBase64 } from "../utils";
 import { createPost } from "../actions/postsActions";
-import uploadIcon from "../assets/images/upload.png";
+
+import ImageDropZone from "./ImageDropZone";
 
 const initialFormState = {
   creator: "Surya K",
   message: "",
   title: "",
   selectedFile: "",
+  tags: [],
 };
 
 const initialFormInValid = {
@@ -24,13 +25,7 @@ const FormMain = () => {
     React.useState(initialFormInValid);
   const [currentForm, setCurrentForm] = React.useState(0);
   const isCreatingPost = useSelector((state) => state.posts.isCreatingPost);
-  const fileRef = React.useRef(null);
   const dispatch = useDispatch();
-
-  const handleFileUpload = async (file) => {
-    const base46Image = await toBase64(file);
-    setFormData((prev) => ({ ...prev, selectedFile: base46Image }));
-  };
 
   const handleSubmit = () => {
     dispatch(createPost(formData));
@@ -39,7 +34,10 @@ const FormMain = () => {
 
   const clear = () => {
     setFormData(initialFormState);
-    fileRef.current.value = "";
+    setFormInValidity(initialFormInValid)
+    setTimeout(() => {
+      setCurrentForm(0)
+    },1000)
   };
 
   return (
@@ -101,35 +99,8 @@ const FormMain = () => {
       )}
       {currentForm === 1 && (
         <div className="d-flex flex-column justify-content-end">
-          <h3 className="mb-4">Add some images!</h3>
-          <Form.Group controlId="formFile" className="mb-5">
-            {!formData.selectedFile && (
-              <div
-                className="image_holder"
-                onClick={() => fileRef.current.click()}
-              >
-                <div className="me-2">
-                  <img src={uploadIcon} alt="upload" />
-                </div>
-                <p className="mb-0">Upload image</p>
-              </div>
-            )}
-            {formData.selectedFile && (
-              <div
-                className="image_holder image_holder_active"
-                onClick={() => fileRef.current.click()}
-              >
-                <img src={formData.selectedFile} alt="upload" />
-              </div>
-            )}
-            <Form.Control
-              type="file"
-              ref={fileRef}
-              accept="image/*"
-              className="d-none"
-              onChange={(e) => handleFileUpload(e.target.files[0])}
-            />
-          </Form.Group>
+          <h3 className="mb-4">Add an image! (and some tags?)</h3>
+          <ImageDropZone setFormData={setFormData} />
           <ButtonGroup>
             <Button
               variant="secondary"
