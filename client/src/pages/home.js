@@ -14,8 +14,6 @@ const HomePage = () => {
     dispatch(getPosts());
   }, [dispatch]);
 
-  console.log(posts);
-
   return (
     <div className="home-page row align-items-center justify-content-between">
       <div className="col-auto">

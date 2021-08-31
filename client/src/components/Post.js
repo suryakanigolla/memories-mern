@@ -1,10 +1,44 @@
 import React from "react";
+import { Dropdown } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+
+import { deletePost } from "../actions/postsActions";
 
 import "./Post.scss";
 
-const Post = ({ title, desc, likeCount, image, creator, containerClass }) => {
+const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+  <div
+    className="post__header__edit"
+    ref={ref}
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
+  >
+    <div></div>
+    <div></div>
+    <div></div>
+    {children}
+  </div>
+));
+
+const Post = ({
+  title,
+  desc,
+  likeCount,
+  image,
+  creator,
+  containerClass,
+  id,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLiked, setIsLiked] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deletePost(id));
+  };
 
   return (
     <div
@@ -19,11 +53,19 @@ const Post = ({ title, desc, likeCount, image, creator, containerClass }) => {
           backgroundPosition: "center",
         }}
       >
-        <div className="post__header__edit">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+        <Dropdown>
+          <Dropdown.Toggle
+            as={CustomToggle}
+            id="dropdown-custom-components"
+          ></Dropdown.Toggle>
+
+          <Dropdown.Menu align="start">
+            <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onClick={() => handleDelete()}>
+              Delete
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
         <div
           id="post_button"
           className="post_open_button"

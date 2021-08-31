@@ -12,7 +12,10 @@ const Pagination = ({ data, pageLimit, dataLimit }) => {
 
   React.useEffect(() => {
     setPages(Math.ceil(data.length / dataLimit));
-  }, [data, dataLimit]);
+    if (currentPage > pages && currentPage !== 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  }, [data, dataLimit, currentPage, pages]);
 
   const goNext = () => {
     setCurrentPage((page) => page + 1);
@@ -73,6 +76,7 @@ const Pagination = ({ data, pageLimit, dataLimit }) => {
               likeCount={post.likeCount}
               image={post.selectedFile}
               creator={post.creator}
+              id={post._id}
             />
           ))
         ) : (
