@@ -2,7 +2,7 @@ import React from "react";
 import { Dropdown } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { deletePost } from "../actions/postsActions";
+import { deletePost, likePost } from "../actions/postsActions";
 
 import "./Post.scss";
 
@@ -25,7 +25,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 const Post = ({
   title,
   desc,
-  likeCount,
+  isPostLiked,
   image,
   creator,
   containerClass,
@@ -33,17 +33,23 @@ const Post = ({
   setCurrentId,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isLiked, setIsLiked] = React.useState(false);
+  const [isLiked, setIsLiked] = React.useState(isPostLiked);
 
   const dispatch = useDispatch();
 
   const handleDelete = () => {
     dispatch(deletePost(id));
-    setCurrentId(null)
+    setCurrentId(null);
   };
 
   const handleEdit = () => {
     setCurrentId(id);
+  };
+
+  const handleLike = () => {
+    const tempIsLiked = isLiked;
+    setIsLiked((prev) => !prev);
+    dispatch(likePost(id, !tempIsLiked));
   };
 
   return (
@@ -92,14 +98,13 @@ const Post = ({
         <div className="post__footer__like d-flex align-items-center">
           <button
             className={`post__footer__like__button ${isLiked && "liked"}`}
-            onClick={() => setIsLiked((prev) => !prev)}
+            onClick={() => handleLike()}
           >
             <span className="like-icon">
               <div className="heart-animation-1"></div>
               <div className="heart-animation-2"></div>
             </span>
           </button>
-          <span className="post__footer__like__count">{likeCount}</span>
         </div>
       </div>
     </div>

@@ -114,14 +114,26 @@ const FormMain = ({ currentPost, setCurrentId }) => {
             </Form.Text>
           </Form.Group>
 
-          <Button
-            variant="primary"
-            type="button"
-            className="w-100"
-            onClick={() => handleNextForm()}
-          >
-            Next
-          </Button>
+          <ButtonGroup>
+            {currentPost ? (
+              <Button
+                variant="secondary"
+                type="button"
+                className="me-2"
+                onClick={() => setCurrentId(null)}
+              >
+                Cancel
+              </Button>
+            ) : null}
+            <Button
+              variant="primary"
+              type="button"
+              className=""
+              onClick={() => handleNextForm()}
+            >
+              Next
+            </Button>
+          </ButtonGroup>
         </div>
       )}
       {currentForm === 1 && (

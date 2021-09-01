@@ -1,5 +1,6 @@
 import React from "react";
 import { Pagination as PaginationGroup } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 import Post from "./Post";
 import SkeletonPost from "./SkeletonPost";
@@ -9,6 +10,8 @@ import "./Pagination.scss";
 const Pagination = ({ data, pageLimit, dataLimit, setCurrentId }) => {
   const [pages, setPages] = React.useState(Math.ceil(data.length / dataLimit));
   const [currentPage, setCurrentPage] = React.useState(1);
+
+  const isFetching = useSelector((state) => state.posts.isFetching);
 
   React.useEffect(() => {
     setPages(Math.ceil(data.length / dataLimit));
@@ -43,51 +46,59 @@ const Pagination = ({ data, pageLimit, dataLimit, setCurrentId }) => {
     return new Array(pages).fill().map((_, idx) => idx + 1);
   };
 
+  if (isFetching) {
+    return (
+      <div className="pagination-posts">
+        <React.Fragment>
+          <SkeletonPost />
+          <SkeletonPost />
+          <SkeletonPost />
+          <SkeletonPost />
+        </React.Fragment>
+      </div>
+    );
+  }
+
   return (
     <React.Fragment>
       <div className="pagination-group mb-1">
-        <PaginationGroup className="ms-0 mb-0">
-          <PaginationGroup.Prev
-            disabled={currentPage === 1}
-            onClick={() => goBack()}
-          />
-          {paginationGroup().map((number, index) => (
-            <PaginationGroup.Item
-              key={index}
-              active={number === currentPage}
-              onClick={() => changePage(number)}
-            >
-              {number}
-            </PaginationGroup.Item>
-          ))}
-          <PaginationGroup.Next
-            disabled={currentPage === pages}
-            onClick={() => goNext()}
-          />
-        </PaginationGroup>
+        {data.length ? (
+          <PaginationGroup className="ms-0 mb-0">
+            <PaginationGroup.Prev
+              disabled={currentPage === 1}
+              onClick={() => goBack()}
+            />
+            {paginationGroup().map((number, index) => (
+              <PaginationGroup.Item
+                key={index}
+                active={number === currentPage}
+                onClick={() => changePage(number)}
+              >
+                {number}
+              </PaginationGroup.Item>
+            ))}
+            <PaginationGroup.Next
+              disabled={currentPage === pages}
+              onClick={() => goNext()}
+            />
+          </PaginationGroup>
+        ) : null}
       </div>
       <div className="pagination-posts">
-        {data.length ? (
-          sliceData().map((post, index) => (
-            <Post
-              key={index}
-              title={post.title}
-              desc={post.message}
-              likeCount={post.likeCount}
-              image={post.selectedFile}
-              creator={post.creator}
-              id={post._id}
-              setCurrentId={setCurrentId}
-            />
-          ))
-        ) : (
-          <React.Fragment>
-            <SkeletonPost />
-            <SkeletonPost />
-            <SkeletonPost />
-            <SkeletonPost />
-          </React.Fragment>
-        )}
+        {data.length
+          ? sliceData().map((post, index) => (
+              <Post
+                key={index}
+                title={post.title}
+                desc={post.message}
+                isPostLiked={post.isLiked}
+                image={post.selectedFile}
+                creator={post.creator}
+                id={post._id}
+                setCurrentId={setCurrentId}
+              />
+            ))
+          : null}
       </div>
     </React.Fragment>
   );

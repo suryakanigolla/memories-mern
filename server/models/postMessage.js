@@ -5,9 +5,9 @@ const postMessageSchema = mongoose.Schema({
   message: String,
   creator: String,
   selectedFile: String,
-  likeCount: {
-    type: Number,
-    default: 0,
+  isLiked: {
+    type: Boolean,
+    default: false,
   },
   tags: [{ x: Number, y: Number }],
   createdAt: {
