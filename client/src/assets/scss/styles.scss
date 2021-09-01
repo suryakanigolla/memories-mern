@@ -10,9 +10,14 @@
   --container-primary: 1366px;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 //Layout Styles
 @import "./mainlayout";
 
 // Page Styles
 @import "./indexpage";
+@import "./signuppage";
 @import "./homepage";

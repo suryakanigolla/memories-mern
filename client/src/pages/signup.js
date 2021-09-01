@@ -1,19 +1,20 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, ButtonGroup } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 const initialState = {
   email: "",
   password: "",
-  rememberMe: false,
+  passwordConfirm: "",
 };
 
 const initialFormInvalid = {
   email: false,
   password: false,
+  passwordConfirm: false,
 };
 
-const IndexPage = () => {
+const SignUpPage = () => {
   const [formData, setFormData] = React.useState(initialState);
   const [formInValidity, setFormInValidity] =
     React.useState(initialFormInvalid);
@@ -31,18 +32,27 @@ const IndexPage = () => {
     } else {
       setFormInValidity((prev) => ({ ...prev, password: false }));
     }
-    if (!formInValidity.email && !formInValidity.password) {
+    if (!formData.passwordConfirm.length) {
+      setFormInValidity((prev) => ({ ...prev, passwordConfirm: true }));
+    } else {
+      setFormInValidity((prev) => ({ ...prev, passwordConfirm: false }));
+    }
+    if (
+      !formInValidity.email &&
+      !formInValidity.password &&
+      !formInValidity.passwordConfirm
+    ) {
       console.log("All good");
-      history.push("/home");
+      history.push("/login");
     }
   };
 
   return (
-    <div className="index-page">
-      <Form className="index-page-form">
-        <h3 className="index-page-form__heading">Login</h3>
+    <div className="sign-up-page">
+      <Form className="sign-up-page-form">
+        <h3 className="sign-up-page-form__heading">Sign Up</h3>
         <Form.Group
-          className="mb-3 index-page-form__group"
+          className="mb-3 sign-up-page-form__group"
           controlId="formEmail"
         >
           <Form.Label>Email</Form.Label>
@@ -56,7 +66,7 @@ const IndexPage = () => {
           />
         </Form.Group>
         <Form.Group
-          className="mb-3 index-page-form__group"
+          className="mb-3 sign-up-page-form__group"
           controlId="formPassword"
         >
           <Form.Label>Password</Form.Label>
@@ -70,43 +80,43 @@ const IndexPage = () => {
           />
         </Form.Group>
         <Form.Group
-          className="mb-5 d-flex align-items-center justify-content-between"
-          controlId="formRememberMe"
+          className="mb-3 sign-up-page-form__group"
+          controlId="formPasswordConfirm"
         >
-          <div className="d-flex align-items-center">
-            <Form.Check
-              type="checkbox"
-              value={formData.rememberMe}
-              className="me-2"
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  rememberMe: e.target.checked,
-                }))
-              }
-            />
-            <Form.Label className="mb-0 text-muted">Remember Me?</Form.Label>
-          </div>
-          <span
-            className="text-bold bg-dark text-light p-1 px-2 cursor-pointer"
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            value={formData.passwordConfirm}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                passwordConfirm: e.target.value,
+              }))
+            }
+            isInvalid={formInValidity.passwordConfirm}
+          />
+        </Form.Group>
+        <ButtonGroup>
+          <Button
+            variant="secondary"
+            type="button"
             onClick={() => {
-              history.push("/signup");
+              history.push("/");
             }}
           >
-            Sign Up
-          </span>
-        </Form.Group>
-        <Button
-          variant="primary"
-          type="button"
-          className="w-100"
-          onClick={() => handleSubmit()}
-        >
-          Login
-        </Button>
+            Back
+          </Button>
+          <Button
+            variant="primary"
+            type="button"
+            onClick={() => handleSubmit()}
+          >
+            Register
+          </Button>
+        </ButtonGroup>
       </Form>
     </div>
   );
 };
 
-export default IndexPage;
+export default SignUpPage;
