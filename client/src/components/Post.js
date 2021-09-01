@@ -30,6 +30,7 @@ const Post = ({
   creator,
   containerClass,
   id,
+  setCurrentId,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLiked, setIsLiked] = React.useState(false);
@@ -38,6 +39,11 @@ const Post = ({
 
   const handleDelete = () => {
     dispatch(deletePost(id));
+    setCurrentId(null)
+  };
+
+  const handleEdit = () => {
+    setCurrentId(id);
   };
 
   return (
@@ -60,7 +66,9 @@ const Post = ({
           ></Dropdown.Toggle>
 
           <Dropdown.Menu align="start">
-            <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onClick={() => handleEdit()}>
+              Edit
+            </Dropdown.Item>
             <Dropdown.Item eventKey="2" onClick={() => handleDelete()}>
               Delete
             </Dropdown.Item>

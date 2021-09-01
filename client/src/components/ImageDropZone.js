@@ -7,9 +7,9 @@ import Tag from "./Tag";
 
 import "./ImageDropZone.scss";
 
-const ImageDropZone = ({setFormData}) => {
-  const [image, setImage] = React.useState(null);
-  const [points, setPoints] = React.useState([]);
+const ImageDropZone = ({setFormData, currentPost}) => {
+  const [image, setImage] = React.useState(currentPost ? currentPost.selectedFile : null);
+  const [points, setPoints] = React.useState(currentPost ? currentPost.tags : []);
   const fileUploadRef = React.useRef(null);
 
   const onDrop = useCallback((acceptedFiles) => {

@@ -2,6 +2,7 @@ const initialPostsState = {
   posts: [],
   isFetching: false,
   isCreatingPost: false,
+  isUpdatingPost: false,
 };
 
 const posts = (state = initialPostsState, action) => {
@@ -15,6 +16,11 @@ const posts = (state = initialPostsState, action) => {
       return {
         ...state,
         isCreatingPost: !state.isCreatingPost,
+      };
+    case "TOGGLE_UPDATE_POST_LOADING":
+      return {
+        ...state,
+        isUpdatingPost: !state.isUpdatingPost,
       };
     case "FETCH_POSTS":
       return {
@@ -36,8 +42,8 @@ const posts = (state = initialPostsState, action) => {
     case "DELETE_POST":
       return {
         ...state,
-        posts: state.posts.filter((post) => post._id !== action.payload)
-      }
+        posts: state.posts.filter((post) => post._id !== action.payload),
+      };
     default:
       return state;
   }

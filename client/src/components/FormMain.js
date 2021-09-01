@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button, Spinner, ButtonGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-import { createPost } from "../actions/postsActions";
+import { createPost, updatePost } from "../actions/postsActions";
 
 import ImageDropZone from "./ImageDropZone";
 
@@ -19,16 +19,34 @@ const initialFormInValid = {
   message: false,
 };
 
-const FormMain = () => {
+const FormMain = ({ currentPost, setCurrentId }) => {
+  const isCreatingPost = useSelector((state) => state.posts.isCreatingPost);
+  const isUpdatingPost = useSelector((state) => state.posts.isUpdatingPost);
+
   const [formData, setFormData] = React.useState(initialFormState);
   const [formInValidity, setFormInValidity] =
     React.useState(initialFormInValid);
   const [currentForm, setCurrentForm] = React.useState(0);
-  const isCreatingPost = useSelector((state) => state.posts.isCreatingPost);
+
+  React.useEffect(() => {
+    setFormData({
+      ...initialFormState,
+      message: currentPost ? currentPost.message : "",
+      title: currentPost ? currentPost.title : "",
+      selectedFile: currentPost ? currentPost.selectedFile : "",
+      tags: currentPost ? currentPost.tags : [],
+    });
+  }, [currentPost]);
+
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
     dispatch(createPost(formData));
+    clear();
+  };
+
+  const handleUpdate = () => {
+    dispatch(updatePost(currentPost._id, formData));
     clear();
   };
 
@@ -62,7 +80,9 @@ const FormMain = () => {
     <Form>
       {currentForm === 0 && (
         <div>
-          <h3 className="mb-3">Create a post!</h3>
+          <h3 className="mb-3">
+            {currentPost ? "Edit a post" : "Create a post!"}
+          </h3>
           <Form.Group className="mb-3" controlId="formTitle">
             <Form.Label>Title</Form.Label>
             <Form.Control
@@ -106,8 +126,12 @@ const FormMain = () => {
       )}
       {currentForm === 1 && (
         <div className="d-flex flex-column justify-content-end">
-          <h3 className="mb-4">Add an image! (and some tags?)</h3>
-          <ImageDropZone setFormData={setFormData} />
+          <h3 className="mb-4">
+            {currentPost
+              ? "Update your image and tags"
+              : "Add an image! (and some tags?)"}
+          </h3>
+          <ImageDropZone setFormData={setFormData} currentPost={currentPost} />
           <ButtonGroup>
             <Button
               variant="secondary"
@@ -118,21 +142,39 @@ const FormMain = () => {
               Back
             </Button>
 
-            <Button
-              variant="primary"
-              type="button"
-              onClick={() => handleSubmit()}
-              disabled={isCreatingPost}
-            >
-              {isCreatingPost ? (
-                <React.Fragment>
-                  <Spinner animation="border" variant="light" size="sm" />{" "}
-                  Posting...
-                </React.Fragment>
-              ) : (
-                "Submit"
-              )}
-            </Button>
+            {currentPost ? (
+              <Button
+                variant="primary"
+                type="button"
+                onClick={() => handleUpdate()}
+                disabled={isUpdatingPost}
+              >
+                {isUpdatingPost ? (
+                  <React.Fragment>
+                    <Spinner animation="border" variant="light" size="sm" />{" "}
+                    Updating...
+                  </React.Fragment>
+                ) : (
+                  "Update"
+                )}
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                type="button"
+                onClick={() => handleSubmit()}
+                disabled={isCreatingPost}
+              >
+                {isCreatingPost ? (
+                  <React.Fragment>
+                    <Spinner animation="border" variant="light" size="sm" />{" "}
+                    Posting...
+                  </React.Fragment>
+                ) : (
+                  "Submit"
+                )}
+              </Button>
+            )}
           </ButtonGroup>
         </div>
       )}

@@ -6,7 +6,7 @@ import SkeletonPost from "./SkeletonPost";
 
 import "./Pagination.scss";
 
-const Pagination = ({ data, pageLimit, dataLimit }) => {
+const Pagination = ({ data, pageLimit, dataLimit, setCurrentId }) => {
   const [pages, setPages] = React.useState(Math.ceil(data.length / dataLimit));
   const [currentPage, setCurrentPage] = React.useState(1);
 
@@ -77,6 +77,7 @@ const Pagination = ({ data, pageLimit, dataLimit }) => {
               image={post.selectedFile}
               creator={post.creator}
               id={post._id}
+              setCurrentId={setCurrentId}
             />
           ))
         ) : (
