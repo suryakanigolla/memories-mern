@@ -1,17 +1,21 @@
 import React from "react";
-import { Form, Button, ButtonGroup } from "react-bootstrap";
+import { Form, Button, ButtonGroup, Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 const initialState = {
   email: "",
   password: "",
   passwordConfirm: "",
+  firstName: "",
+  lastName: "",
 };
 
 const initialFormInvalid = {
   email: false,
   password: false,
   passwordConfirm: false,
+  firstName: false,
+  lastName: false,
 };
 
 const SignUpPage = () => {
@@ -37,10 +41,22 @@ const SignUpPage = () => {
     } else {
       setFormInValidity((prev) => ({ ...prev, passwordConfirm: false }));
     }
+    if (!formData.firstName.length) {
+      setFormInValidity((prev) => ({ ...prev, firstName: true }));
+    } else {
+      setFormInValidity((prev) => ({ ...prev, firstName: false }));
+    }
+    if (!formData.lastName.length) {
+      setFormInValidity((prev) => ({ ...prev, lastName: true }));
+    } else {
+      setFormInValidity((prev) => ({ ...prev, lastName: false }));
+    }
     if (
       !formInValidity.email &&
       !formInValidity.password &&
-      !formInValidity.passwordConfirm
+      !formInValidity.passwordConfirm &&
+      !formInValidity.firstName &&
+      !formInValidity.lastName
     ) {
       console.log("All good");
       history.push("/login");
@@ -51,6 +67,38 @@ const SignUpPage = () => {
     <div className="sign-up-page">
       <Form className="sign-up-page-form">
         <h3 className="sign-up-page-form__heading">Sign Up</h3>
+        <Form.Group
+          className="mb-3 sign-up-page-form__group"
+          controlId="formNames"
+        >
+          <Row>
+            <Col>
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={formData.firstName}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    firstName: e.target.value,
+                  }))
+                }
+                isInvalid={formInValidity.firstName}
+              />
+            </Col>
+            <Col>
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={formData.lastName}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, lastName: e.target.value }))
+                }
+                isInvalid={formInValidity.lastName}
+              />
+            </Col>
+          </Row>
+        </Form.Group>
         <Form.Group
           className="mb-3 sign-up-page-form__group"
           controlId="formEmail"

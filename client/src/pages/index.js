@@ -89,7 +89,7 @@ const IndexPage = () => {
           />
         </Form.Group>
         <Form.Group
-          className="mb-5 d-flex align-items-center justify-content-between"
+          className="mb-4 d-flex align-items-center justify-content-between"
           controlId="formRememberMe"
         >
           <div className="d-flex align-items-center">
