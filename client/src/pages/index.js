@@ -1,6 +1,10 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import GoogleLogin from "react-google-login";
+
+import googleIcon from "../assets/images/google-icon.svg";
 
 const initialState = {
   email: "",
@@ -19,6 +23,7 @@ const IndexPage = () => {
     React.useState(initialFormInvalid);
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
     if (!formData.email.length) {
@@ -35,6 +40,20 @@ const IndexPage = () => {
       console.log("All good");
       history.push("/home");
     }
+  };
+
+  const handleGoogleSuccess = async (res) => {
+    const userData = res?.profileObj;
+    const token = res?.tokenId;
+
+    if (userData && token) {
+      dispatch({ type: "AUTH", payload: { userData, token } });
+      history.push("/home")
+    }
+  };
+
+  const handleGoogleFailure = (error) => {
+    console.log(error);
   };
 
   return (
@@ -99,11 +118,34 @@ const IndexPage = () => {
         <Button
           variant="primary"
           type="button"
-          className="w-100"
+          className="w-100 mb-2"
           onClick={() => handleSubmit()}
         >
           Login
         </Button>
+        <GoogleLogin
+          clientId="863171998753-cvajles56ogr9jqp93jrg0umk5rsk7oh.apps.googleusercontent.com"
+          onSuccess={(res) => handleGoogleSuccess(res)}
+          onFailure={(error) => handleGoogleFailure(error)}
+          cookiePolicy="single_host_origin"
+          render={(renderProps) => (
+            <Button
+              variant="secondary"
+              type="button"
+              className="w-100 d-flex align-items-center justify-content-center"
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              <img
+                width="18px"
+                src={googleIcon}
+                alt="google-icon"
+                className="mb-0 me-2"
+              ></img>
+              Login
+            </Button>
+          )}
+        ></GoogleLogin>
       </Form>
     </div>
   );
