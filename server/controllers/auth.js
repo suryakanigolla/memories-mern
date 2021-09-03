@@ -3,69 +3,79 @@ import jwt from "jsonwebtoken";
 
 import User from "../models/user.js";
 
-export const signin = async (req, res) => {
-  const userData = req.body;
-  const { email, password } = userData;
-
+export const login = async (req, res) => {
   try {
+    const { email, password } = req.body;
+
+    if (!email) res.status(400).json({ message: "Email is required" });
+    if (!password) res.status(400).json({ message: "Password is required" });
+
     const existingUser = await User.findOne({ email });
 
-    //If user does not exist
-    if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
+    if (!existingUser)
+      res.status(404).json({ message: "Account does not exist" });
+
+    const isPassMatch = await bcrypt.compare(password, existingUser.password);
+
+    if (!isPassMatch) res.status(400).json({ message: "Invalid Credentials" });
+
+    if (existingUser && isPassMatch) {
+      const token = jwt.sign({ userId: existingUser._id, email }, "SECRET", {
+        expiresIn: "4h",
+      });
+
+      existingUser.token = token;
+
+      res.send(200).json(user);
     }
-
-    //Check if password is correct
-    const isCorrect = await bcrypt.compare(password, existingUser.password);
-
-    //If password is wrong
-    if (!isCorrect) {
-      return res.status(400).json({ message: "Invalid Credentials" });
-    }
-
-    //Sign using jwt
-    const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
-      "test", //secret
-      { expiresIn: "1h" } //token expiry time
-    );
-
-    res.status(200).json({ user: existingUser, token });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-export const signup = async (req, res) => {
-  const userData = req.body;
-  const { firstName, lastName, email, password, passwordConfirm } = userData;
-
+export const register = async (req, res) => {
   try {
+    const { firstName, lastName, email, password, passwordConfirm } = req.body;
+
+    if (!firstName) res.status(400).json({ message: "First Name is required" });
+    if (!lastName) res.status(400).json({ message: "Last Name is required" });
+    if (!email) res.status(400).json({ message: "Email is required" });
+    if (!password) res.status(400).json({ message: "Password is required" });
+    if (!passwordConfirm)
+      res.status(400).json({ message: "Password Confirm is required" });
+
+    if (password !== passwordConfirm)
+      res.status(400).json({ message: "Passwords does not match" });
+
     const existingUser = await User.findOne({ email });
 
-    //If user exists
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      res.status(409).json({
+        message: "This email is already being used by another account",
+      });
     }
 
-    if (password != passwordConfirm) {
-      return res.status(400).json({ message: "Passwords doesn't match" });
-    }
+    const hashPass = await bcrypt.hash(password, 12);
 
-    const hashPass = bcrypt.hash(password, 12);
-    const result = await User.create({
-      email,
-      password: hashPass,
+    const newUser = await User.create({
       firstName,
       lastName,
+      email: email.toLowerCase(),
+      password: hashPass,
     });
 
-    const token = jwt.sign({ email: result.email, id: result._id }, "test", {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      {
+        userId: newUser._id,
+        email,
+      },
+      "SECRET",
+      { expiresIn: "4h" }
+    );
 
-    res.status(200).json({ user: result, token });
+    newUser.token = token;
+
+    res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
