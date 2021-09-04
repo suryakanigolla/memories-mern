@@ -5,6 +5,8 @@ import { GoogleLogout } from "react-google-login";
 
 import { Navbar, Nav, Container, Dropdown, Image } from "react-bootstrap";
 
+import { logout } from "../actions/authActions";
+
 import PersonLightIcon from "../assets/images/person-light.svg";
 
 const Header = () => {
@@ -12,7 +14,7 @@ const Header = () => {
   const history = useHistory();
 
   const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
+    dispatch(logout());
     history.push("/");
   };
 

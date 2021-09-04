@@ -1,0 +1,30 @@
+.Toastify {
+  &__toast {
+    padding: 0px;
+    display: grid;
+    place-content: center;
+    &-container {
+      max-width: 350px;
+      padding: 0px;
+    }
+    &-body {
+      padding: 6px 10px;
+    }
+    &--success {
+      background-color: black;
+      border: 1px solid green;
+      color: white;
+    }
+    &--error {
+      background-color: black;
+      border: 1px solid red;
+      color: white;
+    }
+  }
+  &__progress-bar {
+    background-color: white;
+  }
+  &__close-button {
+    display: none;
+  }
+}
