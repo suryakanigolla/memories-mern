@@ -20,16 +20,20 @@ export const login = async (req, res) => {
     if (!isPassMatch) res.status(400).json({ message: "Invalid Credentials" });
 
     if (existingUser && isPassMatch) {
-      const token = jwt.sign({ userId: existingUser._id, email }, "SECRET", {
-        expiresIn: "4h",
-      });
+      const token = jwt.sign(
+        { userId: existingUser._id, email },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "4h",
+        }
+      );
 
       existingUser.token = token;
 
       res.status(200).json(existingUser);
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -70,7 +74,7 @@ export const register = async (req, res) => {
         userId: newUser._id,
         email,
       },
-      "SECRET",
+      process.env.JWT_SECRET,
       { expiresIn: "4h" }
     );
 

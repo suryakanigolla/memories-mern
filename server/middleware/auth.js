@@ -11,11 +11,11 @@ const verifyToken = (req, res, next) => {
 
   try {
     if (token && isCustomToken) {
-      const decoded = jwt.verify(token, "SECRET");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.userId = decoded.userId;
     } else {
       const decoded = jwt.decode(token);
-      req.userId = decoded.sub
+      req.userId = decoded.sub;
     }
   } catch (err) {
     console.log(err);
