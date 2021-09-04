@@ -92,7 +92,7 @@ const IndexPage = () => {
           className="mb-4 d-flex align-items-center justify-content-between"
           controlId="formRememberMe"
         >
-          <div className="d-flex align-items-center">
+          {/* <div className="d-flex align-items-center">
             <Form.Check
               type="checkbox"
               value={formData.rememberMe}
@@ -105,7 +105,7 @@ const IndexPage = () => {
               }
             />
             <Form.Label className="mb-0 text-muted">Remember Me?</Form.Label>
-          </div>
+          </div> */}
           <span
             className="text-bold bg-dark text-light p-1 px-2 cursor-pointer"
             onClick={() => {

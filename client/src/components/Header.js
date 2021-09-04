@@ -35,8 +35,8 @@ const Header = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Settings</Dropdown.Item>
+                {/* <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Settings</Dropdown.Item> */}
                 <GoogleLogout
                   clientId="863171998753-cvajles56ogr9jqp93jrg0umk5rsk7oh.apps.googleusercontent.com"
                   onLogoutSuccess={() => handleLogout()}

@@ -96,6 +96,7 @@ const Pagination = ({ data, pageLimit, dataLimit, setCurrentId }) => {
                 creator={post.creator}
                 id={post._id}
                 setCurrentId={setCurrentId}
+                tags={post.tags}
               />
             ))
           : null}

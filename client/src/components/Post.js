@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 
 import { deletePost, likePost } from "../actions/postsActions";
 
+import Tag from "./Tag";
+
 import "./Post.scss";
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -31,6 +33,7 @@ const Post = ({
   containerClass,
   id,
   setCurrentId,
+  tags,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLiked, setIsLiked] = React.useState(isPostLiked);
@@ -80,6 +83,9 @@ const Post = ({
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+        {isOpen && tags.map((point, index) => (
+          <Tag key={index} x={point.x} y={point.y} number={index + 1} />
+        ))}
         <div
           id="post_button"
           className="post_open_button"
