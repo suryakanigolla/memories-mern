@@ -6,6 +6,7 @@ import GoogleLogin from "react-google-login";
 
 import googleIcon from "../assets/images/google-icon.svg";
 import { login } from "../actions/authActions";
+import { toastMessage, TYPE_SUCCESS, TYPE_ERROR } from "../components/Toast";
 
 const initialState = {
   email: "",
@@ -38,7 +39,7 @@ const IndexPage = () => {
       setFormInValidity((prev) => ({ ...prev, password: false }));
     }
     if (!formInValidity.email && !formInValidity.password) {
-      dispatch(login(formData, history))
+      dispatch(login(formData, history));
     }
   };
 
@@ -48,12 +49,14 @@ const IndexPage = () => {
 
     if (userData && token) {
       dispatch({ type: "AUTH", payload: { userData, token } });
+      toastMessage("Login Successful", TYPE_SUCCESS);
       history.push("/home");
     }
   };
 
   const handleGoogleFailure = (error) => {
     console.log(error);
+    toastMessage(error, TYPE_ERROR);
   };
 
   return (
