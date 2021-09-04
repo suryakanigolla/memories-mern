@@ -1,6 +1,8 @@
 import React from "react";
 import { Form, Button, ButtonGroup, Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { register } from "../actions/authActions";
 
 const initialState = {
   email: "",
@@ -24,6 +26,7 @@ const SignUpPage = () => {
     React.useState(initialFormInvalid);
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
     if (!formData.email.length) {
@@ -58,8 +61,7 @@ const SignUpPage = () => {
       !formInValidity.firstName &&
       !formInValidity.lastName
     ) {
-      console.log("All good");
-      history.push("/login");
+      dispatch(register(formData, history));
     }
   };
 
@@ -131,7 +133,7 @@ const SignUpPage = () => {
           className="mb-3 sign-up-page-form__group"
           controlId="formPasswordConfirm"
         >
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
             value={formData.passwordConfirm}

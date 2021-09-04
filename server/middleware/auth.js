@@ -1,21 +1,27 @@
-import jwt from "jsonwebtoken"
-
-const config = process.env;
+import jwt from "jsonwebtoken";
 
 const verifyToken = (req, res, next) => {
-  const token =
-    req.body.token || req.query.token || req.headers["x-access-token"];
+  let token = req.body.token || req.query.token || req.headers.authorization;
+  token = token.split(" ")[1];
+  const isCustomToken = token.length < 500;
 
   if (!token) {
     return res.status(403).send("A token is required for authentication");
   }
+
   try {
-    const decoded = jwt.verify(token, config.TOKEN_KEY);
-    req.user = decoded;
+    if (token && isCustomToken) {
+      const decoded = jwt.verify(token, "SECRET");
+      req.userId = decoded.userId;
+    } else {
+      const decoded = jwt.decode(token);
+      req.userId = decoded.sub
+    }
   } catch (err) {
+    console.log(err);
     return res.status(401).send("Invalid Token");
   }
   return next();
 };
 
-export default verifyToken
+export default verifyToken;

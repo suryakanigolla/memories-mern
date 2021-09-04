@@ -1,10 +1,27 @@
 import axios from "axios";
 
-const url = "http://localhost:5000/posts";
+const axiosInstance = axios.create({ baseURL: "http://localhost:5000" });
 
-export const fetchPosts = () => axios.get(url);
-export const createPost = (postData) => axios.post(url, postData);
+axiosInstance.interceptors.request.use((req) => {
+  const user = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
+
+  if (user && token) {
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return req
+});
+
+export const fetchPosts = () => axiosInstance.get("/posts");
+export const createPost = (postData) => axiosInstance.post("/posts", postData);
 export const updatePost = (id, updatedPost) =>
-  axios.patch(`${url}/${id}`, updatedPost);
-export const deletePost = (id) => axios.delete(`${url}/${id}`);
-export const likePost = (id,isLiked) => axios.patch(`${url}/${id}/like`, {isLiked})
+  axiosInstance.patch(`/posts/${id}`, updatedPost);
+export const deletePost = (id) => axiosInstance.delete(`/posts/${id}`);
+export const likePost = (id, isLiked) =>
+  axiosInstance.patch(`/posts/${id}/like`, { isLiked });
+
+export const login = (loginData) =>
+  axiosInstance.post("/auth/login", loginData);
+export const register = (registerData) =>
+  axiosInstance.post("/auth/register", registerData);

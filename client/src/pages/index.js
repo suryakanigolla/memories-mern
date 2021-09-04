@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import GoogleLogin from "react-google-login";
 
 import googleIcon from "../assets/images/google-icon.svg";
+import { login } from "../actions/authActions";
 
 const initialState = {
   email: "",
@@ -37,8 +38,7 @@ const IndexPage = () => {
       setFormInValidity((prev) => ({ ...prev, password: false }));
     }
     if (!formInValidity.email && !formInValidity.password) {
-      console.log("All good");
-      history.push("/home");
+      dispatch(login(formData, history))
     }
   };
 
@@ -48,7 +48,7 @@ const IndexPage = () => {
 
     if (userData && token) {
       dispatch({ type: "AUTH", payload: { userData, token } });
-      history.push("/home")
+      history.push("/home");
     }
   };
 

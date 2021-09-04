@@ -71,6 +71,7 @@ const FormMain = ({ currentPost, setCurrentId }) => {
   const clear = () => {
     setFormData(initialFormState);
     setFormInValidity(initialFormInValid);
+    setCurrentId(null)
     setTimeout(() => {
       setCurrentForm(0);
     }, 1000);
