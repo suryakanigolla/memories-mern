@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import MainLayout from "./layouts/MainLayout";
+import ProtectedRoute from "./layouts/ProtectedRoute";
 
 import IndexPage from "./pages";
 import SignUpPage from "./pages/signup";
@@ -13,17 +13,9 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/home">
-          <MainLayout>
-            <HomePage></HomePage>
-          </MainLayout>
-        </Route>
-        <Route path="/signup">
-          <SignUpPage></SignUpPage>
-        </Route>
-        <Route path="/">
-          <IndexPage></IndexPage>
-        </Route>
+        <ProtectedRoute path="/home" component={HomePage}></ProtectedRoute>
+        <Route path="/signup" component={SignUpPage}></Route>
+        <Route path="/" component={IndexPage}></Route>
       </Switch>
     </Router>
   );

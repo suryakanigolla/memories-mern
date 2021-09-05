@@ -15,7 +15,15 @@ export const login = (loginData, history) => async (dispatch) => {
       history.push("/home");
     }
   } catch (error) {
-    toastMessage(error.response.data.message, TYPE_ERROR);
+    let message = "";
+    if (error.response) {
+      message = error.response.data.message;
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log("Error", error.message);
+    }
+    toastMessage(message.length ? message : "Something went wrong", TYPE_ERROR);
   }
 };
 export const register = (registerData, history) => async (dispatch) => {
@@ -32,7 +40,15 @@ export const register = (registerData, history) => async (dispatch) => {
       history.push("/home");
     }
   } catch (error) {
-    toastMessage(error.response.data.message, TYPE_ERROR);
+    let message = "";
+    if (error.response) {
+      message = error.response.data.message;
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log("Error", error.message);
+    }
+    toastMessage(message.length ? message : "Something went wrong", TYPE_ERROR);
   }
 };
 export const logout = () => (dispatch) => {

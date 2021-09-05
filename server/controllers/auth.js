@@ -24,7 +24,7 @@ export const login = async (req, res) => {
         { userId: existingUser._id, email },
         process.env.JWT_SECRET,
         {
-          expiresIn: "4h",
+          expiresIn: "1h",
         }
       );
 
@@ -75,7 +75,7 @@ export const register = async (req, res) => {
         email,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "4h" }
+      { expiresIn: "1h" }
     );
 
     newUser.token = token;

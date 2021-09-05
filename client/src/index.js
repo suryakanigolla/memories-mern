@@ -1,19 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { compose, applyMiddleware, createStore } from "redux";
-import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
-import Toast from "./components/Toast";
-import thunk from "redux-thunk";
 
-import reducers from "./reducers";
+import { store, persistor } from "./store";
 
 import App from "./App";
-import "./assets/scss/styles.scss";
+import Toast from "./components/Toast";
 
-const store = createStore(reducers, compose(applyMiddleware(thunk)));
-const persistor = persistStore(store);
+import "./assets/scss/styles.scss";
 
 ReactDOM.render(
   <Provider store={store}>
