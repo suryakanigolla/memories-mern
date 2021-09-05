@@ -1,7 +1,13 @@
 import axios from "axios";
 import { store } from "../store";
 
-const axiosInstance = axios.create({ baseURL: "http://localhost:5000" });
+let development = process.env.NODE_ENV !== "production";
+
+const axiosInstance = axios.create({
+  baseURL: development
+    ? "http://localhost:5000"
+    : "https://memories-mern-new.herokuapp.com",
+});
 
 const select = (state) => {
   return state.auth.token;
