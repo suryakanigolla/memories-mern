@@ -9,7 +9,6 @@ const select = (state) => {
 
 axiosInstance.interceptors.request.use((req) => {
   const token = select(store.getState());
-  console.log(token);
 
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;

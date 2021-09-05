@@ -55,7 +55,6 @@ const IndexPage = () => {
   };
 
   const handleGoogleFailure = (error) => {
-    console.log(error);
     toastMessage(error, TYPE_ERROR);
   };
 
