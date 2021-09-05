@@ -15,8 +15,12 @@
     "nodemon": "^2.0.12"
   },
   "devDependencies": {},
+  "engines": {
+    "node": "v12.20.1"
+  },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC"
