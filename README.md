@@ -65,6 +65,7 @@
 ### Installation
    ```sh
    git clone https://github.com/suryakanigolla/memories-mern.git .
+   npm install
    npm run build
    npm run start
    ```
